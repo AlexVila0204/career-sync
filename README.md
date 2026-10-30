@@ -1,8 +1,8 @@
 # career-sync
 
-A Claude Code plugin that notices what you build and keeps your LaTeX CV, LinkedIn and portfolio up to date, in English and Spanish.
+A Claude Code plugin that keeps your LaTeX CV, LinkedIn and portfolio up to date with what you build, in English and Spanish.
 
-While you work on a project, run `/career-sync`. It reads the project's manifests, infra files and your commits, compares them with your career profile, and proposes only what is new. You approve each item. Then it edits your CV in every language, writes copy-ready LinkedIn text, and updates your portfolio.
+Run `/career-sync` inside a project. It reads the manifests, infra files and your own commits (other people's commits don't count), compares them with your career profile, and lists the skills and achievements you don't have yet. You approve, edit or reject each one. `/career-sync apply` then edits your CV in both languages, writes LinkedIn text you can paste, and updates your portfolio.
 
 ## Install
 
@@ -11,7 +11,7 @@ While you work on a project, run `/career-sync`. It reads the project's manifest
 /plugin install career-sync@career-sync
 ```
 
-Optional: install a `humanizer` skill. When present, every generated text goes through it so it reads like you wrote it.
+If you have a `humanizer` skill installed, career-sync runs every bullet and description through it before showing it to you.
 
 ## Setup
 
@@ -19,7 +19,7 @@ Optional: install a `humanizer` skill. When present, every generated text goes t
 /career-sync init
 ```
 
-It asks for your CV `.tex` files, a LinkedIn data export (Settings > Data privacy > Get a copy of your data) or your pasted Skills page, and your portfolio. It writes `~/.career/profile.yaml`. Set `CAREER_PROFILE` to keep it elsewhere.
+It asks for your CV `.tex` files, your LinkedIn skills (a data export from Settings > Data privacy > Get a copy of your data, or the Skills page pasted as text) and your portfolio, then writes `~/.career/profile.yaml`. Set `CAREER_PROFILE` to keep the file somewhere else.
 
 ## Commands
 
@@ -27,28 +27,26 @@ It asks for your CV `.tex` files, a LinkedIn data export (Settings > Data privac
 |---|---|
 | `/career-sync` | Scan the current project for new skills and achievements. |
 | `/career-sync apply` | Write approved items to the CV, LinkedIn text and portfolio. |
-| `/career-sync status` | Show gaps between CV, LinkedIn and portfolio. |
-| `/career-sync import <zip>` | Reconcile with a fresh LinkedIn export. |
+| `/career-sync status` | Show what is on the CV but missing from LinkedIn, and the reverse. |
+| `/career-sync import <zip>` | Update the profile from a fresh LinkedIn export. |
 
 ## LinkedIn
 
-LinkedIn's API only gives individual developers name, photo and email. Profile read and edit access is limited to approved partners. So career-sync reads your export and writes text you paste.
+LinkedIn's public API only gives individual developers your name, photo and email; editing a profile is reserved for approved partners. career-sync reads your export instead and writes the text for you to paste.
 
-For skills there is an optional Chrome extension in `extension/`. It uses the session of the browser you are already logged into, so it stores no password or cookie. It adds skills one at a time with a configurable wait between requests, attaches each to the positions you chose, and never posts to your feed or deletes anything.
+Skills are the exception. `/career-sync apply` also writes `linkedin-skills-queue.json`, and the Chrome extension in `extension/` adds those skills to your profile, each attached to the positions you chose. It runs inside the LinkedIn tab you are already logged into, so it never asks for or stores a password or cookie. It sends one request at a time with a wait you set (8 seconds by default). It does not delete skills or post anything to your feed.
 
-1. `chrome://extensions` > Developer mode > Load unpacked > pick `extension/`.
-2. Open linkedin.com, click the extension icon, paste `linkedin-skills-queue.json`, click Load.
-3. Resolve: looks up each skill in LinkedIn's picker and preselects the exact match. Fix any row that says "pick a match".
-4. Save checked: confirms, then saves one by one.
+1. Clone this repo, open `chrome://extensions`, turn on Developer mode, click Load unpacked and pick the `extension/` folder.
+2. Open your LinkedIn profile, click the extension icon, paste the contents of `linkedin-skills-queue.json` and click Load.
+3. Click Resolve. The extension searches LinkedIn's skill picker for each entry and selects the exact match. Rows marked "pick a match" need you to choose from the dropdown.
+4. Click Save checked. Rows turn to "saved" as each one goes through.
 
-The extension calls LinkedIn's internal web endpoints. They can change without notice, and automated use of LinkedIn is against its terms, so keep runs small and spaced out. Use it at your own risk.
+The extension uses LinkedIn's internal web endpoints, which can change without notice. LinkedIn's terms forbid automated use, so keep runs small and use it at your own risk. career-sync is not affiliated with or endorsed by LinkedIn.
 
-career-sync is not affiliated with or endorsed by LinkedIn.
+## Supported CV templates
+
+`resume.cls` (Trey Hunner), `moderncv`, `awesome-cv` and Jake's resume. Other templates work as long as career-sync can follow the structure already in your file.
 
 ## License
 
 MIT
-
-## Supported CV templates
-
-`resume.cls` (Trey Hunner), `moderncv`, `awesome-cv`, Jake's resume. Others work by following the existing structure of your file.
