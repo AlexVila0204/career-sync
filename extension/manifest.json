@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "career-sync LinkedIn skills",
+  "version": "0.1.0",
+  "description": "Adds career-sync skills to your LinkedIn profile one by one, attached to the right positions. Never posts.",
+  "action": { "default_title": "career-sync: open skills panel" },
+  "background": { "service_worker": "background.js" },
+  "content_scripts": [
+    {
+      "matches": ["https://www.linkedin.com/*"],
+      "js": ["linkedin-api.js", "queue-runner.js", "panel.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

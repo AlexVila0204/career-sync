@@ -1,0 +1,12 @@
+{
+  "name": "career-sync",
+  "version": "0.1.0",
+  "description": "Detects new skills and achievements in the project you are working on and keeps your LaTeX CV, LinkedIn and portfolio in sync, in English and Spanish.",
+  "author": {
+    "name": "Alberth Godoy",
+    "url": "https://github.com/AlexVila0204"
+  },
+  "homepage": "https://alexvila.me/",
+  "license": "MIT",
+  "keywords": ["cv", "resume", "latex", "linkedin", "portfolio", "career"]
+}

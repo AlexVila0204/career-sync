@@ -1,0 +1,14 @@
+{
+  "name": "career-sync",
+  "owner": {
+    "name": "Alberth Godoy",
+    "url": "https://github.com/AlexVila0204"
+  },
+  "plugins": [
+    {
+      "name": "career-sync",
+      "source": "./",
+      "description": "Keep your LaTeX CV, LinkedIn and portfolio in sync with what you actually build."
+    }
+  ]
+}
